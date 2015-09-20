@@ -5,7 +5,7 @@ test <- read.csv("test.csv")
 splitdf <- function(dataframe, seed=NULL) {
 	if (!is.null(seed)) set.seed(seed)
 	index <- 1:nrow(dataframe)
-	trainindex <- sample(index, trunc(length(index)/2))
+	trainindex <- sample(index, trunc(length(index)2/3))
 	trainset <- dataframe[trainindex, ]
 	testset <- dataframe[-trainindex, ]
 	list(trainset=trainset,testset=testset)
