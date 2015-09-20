@@ -16,3 +16,9 @@ splits <- splitdf(train, seed=808)
 
 train2 <- splits$trainset
 test2 <- splits$testset
+
+# me guardo las respuestas
+write.csv(test2, file = "test2.csv", row.names = TRUE)
+# tiro los resultados
+drops <- c("Category", "Descript", "Resolution")
+test2 <- test2[,!(names(test2) %in% drops)]
