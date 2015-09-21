@@ -1,3 +1,4 @@
+setwd("C:/Dev/Datos/TP/Data")
 train <- read.csv("train.csv")
 test <- read.csv("test.csv")
 
@@ -5,7 +6,7 @@ test <- read.csv("test.csv")
 splitdf <- function(dataframe, seed=NULL) {
 	if (!is.null(seed)) set.seed(seed)
 	index <- 1:nrow(dataframe)
-	trainindex <- sample(index, trunc(length(index)2/3))
+	trainindex <- sample(index, trunc(length(index)*2/3))
 	trainset <- dataframe[trainindex, ]
 	testset <- dataframe[-trainindex, ]
 	list(trainset=trainset,testset=testset)
@@ -39,6 +40,8 @@ normalize <- function(x) {
 
 train_n <- as.data.frame( lapply( train[, c("X", "Y")], normalize ) )
 
+train_n$Category <- train$Category
+
 splits <- splitdf(train_n, seed=808)
 train2 <- splits$trainset
 test2 <- splits$testset
@@ -60,3 +63,10 @@ test2 <- test2[,!(names(test2) %in% drops)]
 # supuestamente sacar las lineas con NA
 train2 <- train2[complete.cases(train2),]
 test2 <- test2[complete.cases(test2),]
+
+newtrain2 <- na.omit(train2)
+newtest2 <- na.omit(test2)
+
+# saber si hay NA's
+testna = is.na(train$Category)
+summary(testna)
