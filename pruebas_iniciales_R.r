@@ -54,37 +54,3 @@ prop.table(sort(notpros, decreasing= TRUE))
 # 5)	Crear un histograma (o gráfico de barras) que muestre la cantidad de delitos por día de la semana.
 barplot(sort(table(train$Day)))
 
-# ------------------------------------------------
-# magia de seba, predicciones...
-# --------------------------------------------------
-
-# instalar paquetes para graficar. Lo mismo que ir a Tool -> Install Packages
-install.packages(c("rpart.plot", "rattle", "RColorBrewer"))
-
-train <- read.csv("D:/datos/train.csv")
-test <- read.csv("D:/datos/test.csv")
-my_tree <- rpart(Category ~ PdDistrict + DayOfWeek, data=train, method="class")
-# te hace instalar gtk+
-library(rattle)
-library(rpart.plot)
-library(RColorBrewer)
-fancyRpartPlot(my_tree)
-
-# Your train and test set are still loaded in
-str(train)
-str(test)
-
-# Make your prediction using the test set
-my_prediction <- predict(my_tree, test, type = "class")
-
-# Create a data frame with two columns: PassengerId & Survived. Survived contains your predictions
-my_solution <- data.frame(Id = test$Id, Category = my_prediction)
-
-# Check that your data frame has 418 entries
-nrow(my_solution)
-
-my_table <- table(my_solution)
-
-# Write your solution to a csv file with the name my_solution.csv
-# el Id si le pones TRUE lo pone pero lo pone en char y hay que modif con np++
-write.csv(my_table, file = "my_solution.csv", row.names = FALSE)
